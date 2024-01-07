@@ -1,8 +1,11 @@
 import streamlit as st
+import pandas as pd
 import joblib
+from sklearn.preprocessing import MinMaxScaler
 
 # Load the trained model 
 model = joblib.load('model/linear_reg_model.joblib')
+scaler = MinMaxScaler()
 
 # Define the UI elements
 st.title('House Price Prediction App')
@@ -75,8 +78,34 @@ elif furnishingstatus_input == "Unfurnished":
 prefarea_no = 0
 prefarea_yes = 1
 
+data = {
+    'area': area_input,
+    'bedrooms': bedrooms_input,
+    'bathrooms': bathrooms_input,
+    'stories': stories_input,
+    'parking': parking_input,
+    'mainroad_no': mainroad_no,
+    'mainroad_yes': mainroad_yes,
+    'guestroom_no': guestroom_no,
+    'guestroom_yes': guestroom_yes,
+    'basement_no': basement_no,
+    'basement_yes': basement_yes,
+    'hotwaterheating_no': hotwaterheating_no,
+    'hotwaterheating_yes': hotwaterheating_yes,
+    'airconditioning_no': airconditioning_no,
+    'airconditioning_yes': airconditioning_yes,
+    'prefarea_no': prefarea_no,
+    'prefarea_yes': prefarea_yes,
+    'furnishingstatus_furnished': furnishingstatus_furnished,
+    'furnishingstatus_semi-furnished': furnishingstatus_semi_furnished,
+    'furnishingstatus_unfurnished': furnishingstatus_unfurnished
+}
+
+df_unseen = pd.DataFrame([data])
+# BETTER OPTION - scale the unseen data with the scaler used for the training data (MinMaxScaler - should be saved with the model)
+
 # Make predictions with Predict button
 if st.button("Predict"):
-    # Make sure to reshape or format the input features as required by your model
-    prediction = model.predict([[area_input, bedrooms_input, bathrooms_input, stories_input, parking_input, mainroad_no, mainroad_yes, guestroom_no, guestroom_yes, basement_no, basement_yes, hotwaterheating_no, hotwaterheating_yes, airconditioning_no, airconditioning_yes, prefarea_no, prefarea_yes, furnishingstatus_furnished, furnishingstatus_semi_furnished, furnishingstatus_unfurnished]])
+    prediction = model.predict(df_unseen)
+    print(prediction)
     st.write(f"Predicted House Price: ${prediction[0]}")
