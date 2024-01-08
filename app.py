@@ -83,7 +83,7 @@ prefarea_yes = 1
 furnishingstatus_furnished, furnishingstatus_semi_furnished, furnishingstatus_unfurnished = preprocess_furnished_input(furnishingstatus_input)
 
 #Call the function to process the inputs
-input_scaled_data = processFeatures()
+input_scaled_data = processFeatures(area_input, bedrooms_input, bathrooms_input, stories_input, parking_input, mainroad_no, mainroad_yes, guestroom_no, guestroom_yes, basement_no, basement_yes, hotwaterheating_no, hotwaterheating_yes, airconditioning_no, airconditioning_yes, prefarea_no, prefarea_yes, furnishingstatus_furnished, furnishingstatus_semi_furnished, furnishingstatus_unfurnished)
 
 # Make predictions with Predict button
 if st.button("Predict"):
