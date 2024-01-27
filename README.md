@@ -4,7 +4,7 @@ This repository contains a comprehensive workflow for predicting house prices in
 
 ## Installation
 
-git clone https://github.com/yasinda-s/HPP-Project.git
+git clone https://github.com/yasinda-s/US-Luxury-House-Price-Prediction.git
 pip install -r requirements.txt
 
 ## Usage
