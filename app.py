@@ -1,13 +1,15 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import locale
 
 # Load the trained model 
 model = joblib.load('model/linear_reg_model.joblib')
 scaler = joblib.load('model/scaler.joblib')
+locale.setlocale( locale.LC_ALL, '' )
 
 # Define the UI elements
-st.title('House Price Prediction App')
+st.markdown("<h1 style='text-align: center;'>Luxury House Price Prediction 🏘️</h1>", unsafe_allow_html=True)
 
 # Input features
 # INCLUDES: +/- for each input, validation checks, min/max values, dropdowns, etc.
@@ -86,6 +88,11 @@ furnishingstatus_furnished, furnishingstatus_semi_furnished, furnishingstatus_un
 input_scaled_data = processFeatures(area_input, bedrooms_input, bathrooms_input, stories_input, parking_input, mainroad_no, mainroad_yes, guestroom_no, guestroom_yes, basement_no, basement_yes, hotwaterheating_no, hotwaterheating_yes, airconditioning_no, airconditioning_yes, prefarea_no, prefarea_yes, furnishingstatus_furnished, furnishingstatus_semi_furnished, furnishingstatus_unfurnished)
 
 # Make predictions with Predict button
-if st.button("Predict"):
+if st.button("Predict price"):
     prediction = model.predict(input_scaled_data)
-    st.write(f"Predicted House Price: ${prediction[0]}")
+    prediction = round(prediction[0], 2)
+    cost = locale.currency(prediction, grouping=True)
+    # st.write(f"Predicted House Price: {cost}")
+
+    st.markdown(f"<h1 style='text-align: center; color: white;'>Predicted House Price</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='text-align: center; color: white;'>{cost}</h2>", unsafe_allow_html=True)
